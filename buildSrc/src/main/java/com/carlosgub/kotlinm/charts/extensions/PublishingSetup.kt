@@ -1,4 +1,4 @@
-package com.netguru.multiplatform.charts.extensions
+package com.carlosgub.kotlinm.charts.extensions
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
@@ -14,7 +14,7 @@ fun Project.publishingSetup() {
 
     val gprBaseUrl = "https://maven.pkg.github.com"
     val gprRepoOwner = "carlosgub"
-    val gprRepoId = "compose-multiplatform-charts"
+    val gprRepoId = "kotlinm-charts"
 
     var properties: Properties? = null
     val secretPropsFile = project.rootProject.file("local.properties")
@@ -34,23 +34,10 @@ fun Project.publishingSetup() {
     val libs = project.the<LibrariesForLibs>()
 
     project.group = libs.versions.project.group.get()
-    project.version = version
-
-
-
-    project.extra["signing.keyId"] = properties?.getProperty("signing.keyId") ?: System.getenv("SIGNING_KEY_ID")
-    project.extra["signing.password"] = properties?.getProperty("signing.password") ?: System.getenv("SIGNING_PASSWORD")
-    project.extra["ossrhUsername"] = properties?.getProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-    project.extra["ossrhPassword"] = properties?.getProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
-    if (properties?.getProperty("signing.secretKeyRingFile") != null) {
-        project.extra["signing.secretKeyRingFile"] = properties?.getProperty("signing.secretKeyRingFile")
-    } else {
-        project.extra["signing.secretKey"] = properties?.getProperty("signing.secretKey") ?: System.getenv("SIGNING_SECRET_KEY")
-    }
+    project.version = "1.0.0"
 
     val javadocJar = tasks.register<Jar>("javadocJar", Jar::class.java) {
         archiveClassifier.set("javadoc")
-        from(tasks.named("dokkaHtml"))
     }
 
     publishing {
