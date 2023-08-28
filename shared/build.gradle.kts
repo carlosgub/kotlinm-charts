@@ -1,11 +1,20 @@
+import com.carlosgub.kotlinm.charts.extensions.publishingSetup
+
+publishingSetup()
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("maven-publish")
+    id("signing")
 }
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        withSourcesJar(publish = false)
+        publishLibraryVariants("release", "debug")
+    }
 
     listOf(
         iosX64(),
@@ -26,18 +35,21 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation("org.jetbrains.kotlinx:atomicfu:0.21.0")
             }
         }
         val androidMain by getting {
-            dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
-            }
+            withSourcesJar(publish = false)
         }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
+        val iosX64Main by getting {
+            withSourcesJar(publish = false)
+        }
+        val iosArm64Main by getting {
+            withSourcesJar(publish = false)
+        }
+        val iosSimulatorArm64Main by getting {
+            withSourcesJar(publish = false)
+        }
         val iosMain by creating {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
