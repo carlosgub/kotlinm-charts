@@ -1,7 +1,6 @@
-rootProject.name = "MyApplication"
+rootProject.name = "Kotlinm-charts"
 
-include(":androidApp")
-include(":shared")
+include(":charts")
 
 pluginManagement {
     repositories {
@@ -22,7 +21,6 @@ pluginManagement {
 
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
-
         id("org.jetbrains.compose").version(composeVersion)
     }
 }

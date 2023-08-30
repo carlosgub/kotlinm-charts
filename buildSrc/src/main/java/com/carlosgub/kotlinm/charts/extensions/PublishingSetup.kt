@@ -34,7 +34,7 @@ fun Project.publishingSetup() {
     val libs = project.the<LibrariesForLibs>()
 
     project.group = libs.versions.project.group.get()
-    project.version = "1.0.0"
+    project.version = "1.0.1"
 
     val javadocJar = tasks.register<Jar>("javadocJar", Jar::class.java) {
         archiveClassifier.set("javadoc")

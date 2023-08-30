@@ -13,5 +13,4 @@ dependencies {
     implementation(libs.plugin.android)
     implementation(libs.plugin.kotlin)
     implementation(gradleKotlinDsl())
-    implementation(libs.plugin.poet)
 }

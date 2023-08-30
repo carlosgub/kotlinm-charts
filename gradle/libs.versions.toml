@@ -26,12 +26,6 @@ core-ktx = "1.10.1"
 junit = "4.13.2"
 window = "1.1.0"
 coroutines-test = "1.7.1"
-voyager = "1.0.0-rc05"
-turbine = "1.0.0"
-datetimeVersion = "0.4.0"
-kotlin-poet = "1.10.2"
-mockk = "1.12.3"
-shot = "6.0.0"
 ktlint = "10.2.1"
 dokkaVersion = "1.8.20"
 
@@ -47,8 +41,6 @@ project-description = "Charts library for Kotlin multiplatform applications"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-gradle-plugin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
-plugin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet"}
-plugin-shot = { module = "com.karumi:shot", version.ref = "shot" }
 androidx-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -57,12 +49,6 @@ test-junit = { module = "junit:junit", version.ref = "junit" }
 test-ui-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 test-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
-test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk-agentJvm = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
-mockk-common = { module = "io.mockk:mockk-common", version.ref = "mockk" }
-dokka = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version = "kotlin-gradle-plugin" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
