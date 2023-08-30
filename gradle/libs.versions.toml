@@ -1,5 +1,6 @@
 [versions]
 ## SDK Versions
+atomicfu = "0.21.0"
 compileSdk = "34"
 minSdk = "24"
 targetSdk = "34"
@@ -13,13 +14,13 @@ optInFlags = "-opt-in=kotlin.RequiresOptIn"
 jvmTarget = "17"
 
 #desktop
-desktop-packageVersion = "1.0.0"
+desktop-packageVersion = "1.0.2"
 desktop-packageName = "jvm"
 
 # Dependencies
 kotlin-gradle-plugin = "1.9.0"
 android-gradle-plugin = "8.1.1"
-compose = "1.5.0-beta02"
+compose = "1.5.0"
 activity-compose = "1.7.2"
 appcompat = "1.6.1"
 core-ktx = "1.10.1"
@@ -32,12 +33,13 @@ dokkaVersion = "1.8.20"
 # Project
 project-group = "com.carlosgub.kotlinm.charts"
 project-artifact = "multiplatform-charts"
-project-version = "1.0.0"
+project-version = "1.0.2"
 project-name = "Compose Multiplatform Charts"
 project-description = "Charts library for Kotlin multiplatform applications"
 
 
 [libraries]
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-gradle-plugin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
