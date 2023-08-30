@@ -1,284 +1,329 @@
-[![official project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-# [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) mobile application
+<div align="center">
+    <img alt="Compose multiplatform charts" src="./assets/charts-logo.svg"/>
+    <h1>Charts for Kotlin Multiplatform projects</h1>
+</div>
 
-> **Note**
-> Compose Multiplatform for iOS is in Alpha. It may change incompatibly and require manual migration in the future.
-> We would appreciate your feedback on it in the public Slack channel [#compose-ios](https://kotlinlang.slack.com/archives/C0346LWVBJ4/p1678888063176359).
-> If you have any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+<div align="center">
+Library contains several chart composables for usage in Kotlin Multiplatform projects.   
+Currently supported platforms are <strong>Desktop</strong> and <strong>Android</strong>.
+</div>
 
-You can use this template to start developing your own [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform#readme) mobile application targeting Android and iOS.
-Follow our tutorial below to get your first Compose Multiplatform app up and running.
-The result will be a [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) project that uses the Compose Multiplatform UI framework.
+<div align="center">
+  <br/><em>Brought with</em> &nbsp;❤️ <em>by</em> &nbsp; <a href="https://www.netguru.com"><img align="center" alt="Netguru logo" src='./assets/readme_netguru_logo.png' width='30'/></a>
+</div>
 
-![](readme_images/banner.png)
+# Installation
+### Using local build
+Go to `charts` folder and run `assemble[Debug|Release]`. This results in an `aar` file which can then be copied/imported to your project as any other `aar` artifact.
+### Using maven dependency
+TBA
 
-If you want to create an application targeting desktop platforms – Windows, macOS, or Linux –
-use the [Compose Multiplatform desktop application template](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme).
+# Usage
+The library provides following components:
+ - [BarChart](#BarChart)
+ - [BubbleChart](#BubbleChart)
+ - [Dial](#Dial)
+ - [GasBottle](#GasBottle)
+ - [LineChart](#LineChart)
+ - [PieChart](#PieChart)
 
-## Set up the environment
+Most of the components have arguments like:
+ - **data** - depends on chart type it's complex dataset or few primitives arguments
+ - **colors** - gives the possibility to change colors of the chart. In some cases the colors are stored in datasets (like in BarChart or LineChart). See [theming](#Theming) section to set same appearance to all charts.
+ - **config** - allows to personalize charts. Depends on chart type it can modify different parts of component. See documentation of specific chart
+ - **animation** - the way how chart should appear at the first time
 
-> **Warning**
-> You need a Mac with macOS to write and run iOS-specific code on simulated or real devices.
-> This is an Apple requirement.
+## BarChart
+![Bar chart](/assets/bar-chart.png)
 
-To work with this template, you need the following:
-
-* A machine running a recent version of macOS
-* [Xcode](https://apps.apple.com/us/app/xcode/id497799835)
-* [Android Studio](https://developer.android.com/studio)
-* The [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-* The [CocoaPods dependency manager](https://kotlinlang.org/docs/native-cocoapods.html)
-
-### Check your environment
-
-Before you start, use the [KDoctor](https://github.com/Kotlin/kdoctor) tool to ensure that your development environment is configured correctly:
-
-1. Install KDoctor with [Homebrew](https://brew.sh/):
-
-    ```text
-    brew install kdoctor
-    ```
-
-2. Run KDoctor in your terminal:
-
-    ```text
-    kdoctor
-    ```
-
-   If everything is set up correctly, you'll see valid output:
-
-   ```text
-   Environment diagnose (to see all details, use -v option):
-   [✓] Operation System
-   [✓] Java
-   [✓] Android Studio
-   [✓] Xcode
-   [✓] Cocoapods
-   
-   Conclusion:
-     ✓ Your system is ready for Kotlin Multiplatform Mobile development!
-   ```
-
-Otherwise, KDoctor will highlight which parts of your setup still need to be configured and will suggest a way to fix them.
-
-## Examine the project structure
-
-Open the project in Android Studio and switch the view from **Android** to **Project** to see all the files and targets belonging to the project:
-
-<img src="readme_images/open_project_view.png" height="300px">
-
-Your Compose Multiplatform project includes 3 modules:
-
-### shared
-
-This is a Kotlin module that contains the logic common for both Android and iOS applications, that is, the code you share between platforms.
-
-This `shared` module is also where you’ll write your Compose Multiplatform code.
-In `shared/src/commonMain/kotlin/App.kt`, you can find the shared root `@Composable` function for your app.
-
-It uses Gradle as the build system. You can add dependencies and change settings in `shared/build.gradle.kts`.
-The `shared` module builds into an Android library and an iOS framework.
-
-### androidApp
-
-This is a Kotlin module that builds into an Android application. It uses Gradle as the build system.
-The `androidApp` module depends on and uses the `shared` module as a regular Android library.
-
-### iosApp
-
-This is an Xcode project that builds into an iOS application.
-It depends on and uses the `shared` module as a CocoaPods dependency.
-
-## Run your application
-
-### On Android
-
-To run your application on an Android emulator:
-
-1. Ensure you have an Android virtual device available. Otherwise, [create one](https://developer.android.com/studio/run/managing-avds#createavd).
-2. In the list of run configurations, select `androidApp`.
-3. Choose your virtual device and click **Run**:
-
-   <img src="readme_images/run_on_android.png" height="60px">
-
-   <img src="readme_images/android_app_running.png" height="200px">
-
-<details>
-  <summary>Alternatively, use Gradle</summary>
-
-To install an Android application on a real Android device or an emulator, run `./gradlew installDebug` in the terminal.
-
-</details>
-
-### On iOS
-
-#### Running on a simulator
-
-To run your application on an iOS simulator in Android Studio, modify the `iosApp` run configuration:
-
-1. In the list of run configurations, select **Edit Configurations**:
-
-   <img src="readme_images/edit_run_config.png" height="200px">
-
-2. Navigate to **iOS Application** | **iosApp**.
-3. In the **Execution target** list, select your target device. Click **OK**:
-
-   <img src="readme_images/target_device.png">
-
-4. The `iosApp` run configuration is now available. Click **Run** next to your virtual device:
-
-<img src="readme_images/hello_world_ios.png" height="200px">
-
-#### Running on a real device
-
-You can run your Compose Multiplatform application on a real iOS device for free.
-To do so, you'll need the following:
-
-* The `TEAM_ID` associated with your [Apple ID](https://support.apple.com/en-us/HT204316)
-* The iOS device registered in Xcode
-
-> **Note**
-> Before you continue, we suggest creating a simple "Hello, world!" project in Xcode to ensure you can successfully run apps on your device.
-> You can follow the instructions below or watch this [Stanford CS193P lecture recording](https://youtu.be/bqu6BquVi2M?start=716&end=1399).
-
-<details>
-<summary>How to create and run a simple project in Xcode</summary>
-
-1. On the Xcode welcome screen, select **Create a new project in Xcode**.
-2. On the **iOS** tab, choose the **App** template. Click **Next**.
-3. Specify the product name and keep other settings default. Click **Next**.
-4. Select where to store the project on your computer and click **Create**. You'll see an app that displays "Hello, world!" on the device screen.
-5. At the top of your Xcode screen, click on the device name near the **Run** button.
-6. Plug your device into the computer. You'll see this device in the list of run options.
-7. Choose your device and click **Run**.
-
-</details>
-
-##### Finding your Team ID
-
-In the terminal, run `kdoctor --team-ids` to find your Team ID.
-KDoctor will list all Team IDs currently configured on your system, for example:
-
-```text
-3ABC246XYZ (Max Sample)
-ZABCW6SXYZ (SampleTech Inc.)
+Before using component the BarChartData has to be prepared:
+```kotlin
+val barChartData = BarChartData(
+    categories = listOf(
+        BarChartCategory(
+            name = "Bar Chart 1",
+            entries = listOf(
+                BarChartEntry(
+                    x = "primary",
+                    y = 17f,
+                    color = Color.Yellow,
+                ),
+                BarChartEntry(
+                    x = "secondary",
+                    y = 30f,
+                    color = Color.Red,
+                ),
+            )
+        ),
+        BarChartCategory(
+            name = "Bar Chart 2",
+            entries = listOf(
+                BarChartEntry(
+                    x = "primary",
+                    y = -5f,
+                    color = Color.Yellow,
+                ),
+                BarChartEntry(
+                    x = "secondary",
+                    y = -24f,
+                    color = Color.Red,
+                ),
+            )
+        ),
+    )
+)
 ```
 
-<details>
-<summary>Alternative way to find your Team ID</summary>
+```kotlin
+BarChart(
+    data = barChartData,
+    config = BarChartConfig(
+        thickness = 14.dp,
+        cornerRadius = 7.dp,
+    ),
+    modifier = Modifier.height(500.dp),
+    animation = ChartAnimation.Sequenced(),
+)
+```
 
-If KDoctor doesn't work for you, try this alternative method:
+There is another component called `BarChartWithLegend`. It renders bar chart with legend.
 
-1. In Android Studio, run the `iosApp` configuration with the selected real device. The build should fail.
-2. Go to Xcode and select **Open a project or file**.
-3. Navigate to the `iosApp/iosApp.xcworkspace` file of your project.
-4. In the left-hand menu, select `iosApp`.
-5. Navigate to **Signing & Capabilities**.
-6. In the **Team** list, select your team.
+## BubbleChart
+![Bubble chart](/assets/bubble-chart.png)
 
-If you haven't set up your team yet, use the **Add account** option and follow the steps.
+Before using component the list of Bubble has to be prepared:
+```kotlin
+val bubbles = listOf(
+    Bubble(
+        name = "first",
+        value = 1.2f,
+        icon = Icons.Default.Album,
+        color = Color.Yellow
+    ),
+    Bubble(
+        name = "second",
+        value = 4.6f,
+        icon = Icons.Default.House,
+        color = Color.Green
+    ),
+    Bubble(
+        name = "third",
+        value = 6.9f,
+        icon = Icons.Default.Bed,
+        color = Color.Blue
+    ),
+)
+```
 
-</details>
+```kotlin
+BubbleChart(
+    bubbles = bubbles,
+    modifier = Modifier.size(300.dp),
+    animation = ChartAnimation.Sequenced(),
+)
+```
 
-To run the application, set the `TEAM_ID`:
+# Dial
+![Dial chart](/assets/dial-chart.png)
 
-1. In the template, navigate to the `iosApp/Configuration/Config.xcconfig` file.
-2. Set your `TEAM_ID`.
-3. Re-open the project in Android Studio. It should show the registered iOS device in the `iosApp` run configuration.
+```kotlin
+Dial(
+    value = 22,
+    minValue = -20,
+    maxValue = 50,
+    modifier = Modifier.fillMaxWidth(),
+    animation = ChartAnimation.Simple {
+        spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    },
+    config = DialConfig(
+        thickness = 20.dp,
+        roundCorners = true,
+    ),
+    mainLabel = {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "$it°C",
+                style = MaterialTheme.typography.h4,
+                color = Color.Yellow
+            )
+            Text(
+                text = "outside temperature",
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        }
+    }
+)
+```
 
-## Make your first changes
+There is another component `ProcentageDial`. It accepts only one data argument `percentage` in [0-100] range.
 
-You can now make some changes in the code and check that they are visible in both the iOS and Android applications at the same time:
 
-1. In Android Studio, navigate to the `shared/src/commonMain/kotlin/App.kt` file.
-   This is the common entry point for your Compose Multiplatform app.
+# GasBottle
+![Gas bottle chart](/assets/gas-bottle.png)
 
-   Here, you see the code responsible for rendering the "Hello, World!" button and the animated Compose Multiplatform logo:
+```kotlin
+GasBottle(
+    percentage = 75f,
+    modifier = Modifier.size(width = 200.dp, height = 300.dp),
+    animation = ChartAnimation.Simple {
+        spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessVeryLow
+        )
+    }
+)
+```
 
-   ```kotlin
-   @OptIn(ExperimentalResourceApi::class)
-   @Composable
-   fun App() {
-       MaterialTheme {
-           var greetingText by remember { mutableStateOf("Hello, World!") }
-           var showImage by remember { mutableStateOf(false) }
-           Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-               Button(onClick = {
-                   greetingText = "Hello, ${getPlatformName()}"
-                   showImage = !showImage
-               }) {
-                   Text(greetingText)
-               }
-               AnimatedVisibility(showImage) {
-                   Image(
-                       painterResource("compose-multiplatform.xml"),
-                       null
-                   )
-               }
-           }
-       }
-   }
-   ```
+# LineChart
+![Line chart](/assets/line-chart.png)
 
-2. Update the shared code by adding a text field that will update the name displayed on the button:
+Before using component the LineChartData has to be prepared:
+```kotlin
+val lineData = remember {
+    LineChartData(
+        series = (1..3).map {
+            LineChartSeries(
+                dataName = "data $it",
+                lineColor = listOf(
+                    Color.Yellow,
+                    Color.Red,
+                    Color.Blue,
+                )[it - 1],
+                listOfPoints = (1..10).map { point ->
+                    LineChartPoint(
+                        x = DateTime.now().minus(TimeSpan(point * 24 * 60 * 60 * 1000.0)).unixMillisLong,
+                        y = (1..15).random().toFloat(),
+                    )
+                }
+            )
+        },
+    )
+}
+```
 
-   ```diff
-   @OptIn(ExperimentalResourceApi::class)
-   @Composable
-   fun App() {
-       MaterialTheme {
-           var greetingText by remember { mutableStateOf("Hello, World!") }
-           var showImage by remember { mutableStateOf(false) }
-           Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-               Button(onClick = {
-                   greetingText = "Hello, ${getPlatformName()}"
-                   showImage = !showImage
-               }) {
-                   Text(greetingText)
-               }
-   +           TextField(greetingText, onValueChange = { greetingText = it })
-               AnimatedVisibility(showImage) {
-                   Image(
-                       painterResource("compose-multiplatform.xml"),
-                       null
-                   )
-               }
-           }
-       }
-   }
-   ```
+```kotlin
+LineChart(
+    lineChartData = lineData,
+    modifier = Modifier.height(300.dp),
+    xAxisLabel = {
+        Text(
+            fontSize = 12.sp,
+            text = DateTime.fromUnix(it as Long).format("yyyy-MM-dd"),
+            textAlign = TextAlign.Center
+        )
+    },
+    overlayHeaderLabel = {
+        Text(
+            text = DateTime.fromUnix(it as Long).format("yyyy-MM-dd"),
+            style = MaterialTheme.typography.overline
+        )
+    },
+    animation = ChartAnimation.Sequenced()
+)
+```
 
-3. Re-run both the `androidApp` and `iosApp` configurations. You'll see this change reflected in both the Android and iOS apps:
 
-   <img src="readme_images/text_field_added.png" height="200px">
+# PieChart
+![Line chart](/assets/pie-chart.png)
 
-## How to configure the iOS application
+Before using component the list of PieChartData has to be prepared:
+```kotlin
+val data = listOf(
+    PieChartData(
+        name = "Data 1",
+        value = 10.0,
+        color = Color.Yellow,
+    ),
+    PieChartData(
+        name = "Data 2",
+        value = 20.0,
+        color = Color.Green,
+    ),
+    PieChartData(
+        name = "Data 3",
+        value = 30.0,
+        color = Color.Blue,
+    ),
+    PieChartData(
+        name = "Data 4",
+        value = 40.0,
+        color = Color.Red,
+    )
+)
+```
+```kotlin
+PieChart(
+    data = data,
+    modifier = Modifier.size(300.dp),
+    config = PieChartConfig(
+        thickness = 40.dp
+    ),
+)
+```
 
-To get a better understanding of this template's setup and learn how to configure the basic properties of your iOS app without Xcode,
-open the `iosApp/Configuration/Config.xcconfig` file in Android Studio. The configuration file contains:
+By default the thickness is `Dp.Infinity`, it means the chart will be fully filled.
 
-* `APP_NAME`, a target executable and an application bundle name.
-* `BUNDLE_ID`, which [uniquely identifies the app throughout the system](https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleidentifier#discussion).
-* `TEAM_ID`, [a unique identifier generated by Apple that's assigned to your team](https://developer.apple.com/help/account/manage-your-team/locate-your-team-id/#:~:text=A%20Team%20ID%20is%20a,developer%20in%20App%20Store%20Connect).
+# Theming
+The easiest way to set the same colors for all charts is to provide `ChartColors` in the app theme.
+```kotlin
+private val chartColors = ChartColors(
+    primary = Color.Green,
+    grid = Color.LightGray,
+    surface = Color.White,
+    fullGasBottle = Color.Green,
+    emptyGasBottle = Color.Red,
+    overlayLine = Color.Magenta
+)
 
-To configure the `APP_NAME` option, open `Config.xcconfig` in any text editor *before opening* the project in Android Studio, and then set the desired name.
+@Composable
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(
+        // ...
+        LocalChartColors provides chartColors,
+    ) {
+        MaterialTheme(
+            // ...
+            content = content,
+        )
+    }
+}
 
-If you need to change this option after you open the project in Android Studio, do the following:
+```
+There is also default ChartColors provided by the library. It uses the default color set from `MaterialTheme`.
+```kotlin
+LocalChartColors provides ChartDefaults.chartColors()
+```
 
-1. Close the project in Android Studio.
-2. Run `./cleanup.sh` in your terminal.
-3. Change the setting.
-4. Open the project in Android Studio again.
+Each chart has its own color set which can be used like:
+```kotlin
+BarChart(
+    data = barChartData,
+    colors = BarChartColors(grid = Color.LightGray)
+)
+```
 
-To configure advanced settings, use Xcode. After opening the project in Android Studio,
-open the `iosApp/iosApp.xcworkspace` file in Xcode and make changes there.
+Also there is possibility to use ChartColors inside the specific chart:
+```kotlin
+BarChart(
+    data = barChartData,
+    colors = ChartColors(...).barChartColors,
+)
+```
 
-## Next steps
+# Security Issues
+[Reporting Security Vulnerabilities](SECURITY.md)
 
-We encourage you to explore Compose Multiplatform further and try out more projects:
+# Contributing
+[Contributing guidelines](CONTRIBUTING.md)
 
-* [Learn about other cases for using the Compose Multiplatform UI framework](https://github.com/JetBrains/compose-multiplatform#readme)
-* [Create an application targeting Windows, macOS, and Linux with Compose Multiplatform for Desktop](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme)
-* [Complete more Compose Multiplatform tutorials](https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/README.md)
-* [Explore some more advanced Compose Multiplatform example projects](https://github.com/JetBrains/compose-multiplatform/blob/master/examples/README.md)
+# License
+This library is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
