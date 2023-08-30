@@ -14,7 +14,9 @@ Currently supported platforms are <strong>iOS</strong>, <strong>Android</strong>
 
 # Installation
 ### Using maven dependency
-This library is at GitHub packages so you need to create a GitHub token with the permission `read:packages` to use it. [How to create a Github Token](https://docs.github.com/en/enterprise-server@3.8/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+This library is at GitHub packages so you need to create a GitHub token with the permission `read:packages` to use it. 
+
+[How to create a Github Token](https://docs.github.com/en/enterprise-server@3.8/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
 At this code at your gradle.kts file:
 
