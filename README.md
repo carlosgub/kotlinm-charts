@@ -1,25 +1,35 @@
 <div align="center">
-    <img alt="Compose multiplatform charts" src="./assets/charts-logo.svg"/>
+    <img alt="Compose multiplatform charts" src="https://github.com/carlosgub/kotlinm-charts/assets/30916886/7e2f0915-4827-4e16-bdf5-25b060841664"/>
     <h1>Charts for Kotlin Multiplatform projects</h1>
 </div>
 
 <div align="center">
-Library contains several chart composables for usage in Kotlin Multiplatform projects.   
-Currently supported platforms are <strong>Desktop</strong> and <strong>Android</strong>.
+This library contains several chart composables for usage in Kotlin Multiplatform projects.   
+Currently supported platforms are <strong>iOS</strong>, <strong>Android</strong> and <strong>Desktop</strong> (not verified).
 </div>
-
+<br/>
 <div align="center">
-  <br/><em>Brought with</em> &nbsp;❤️ <em>by</em> &nbsp; <a href="https://www.netguru.com"><img align="center" alt="Netguru logo" src='./assets/readme_netguru_logo.png' width='30'/></a>
+  <br/><em>This repository is a copy from https://github.com/netguru/compose-multiplatform-charts but because it's not maintained I create this new one where you can use this repository using maven dependency. Also updating the libraries to use the last version of compose-multiplatform<em>
 </div>
 
 # Installation
-### Using local build
-Go to `charts` folder and run `assemble[Debug|Release]`. This results in an `aar` file which can then be copied/imported to your project as any other `aar` artifact.
 ### Using maven dependency
-TBA
+This library is at GitHub packages so you need to create a GitHub token to use it. 
+
+At your gradle.kts file add this:
+
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/carlosgub/kotlinm-charts")
+        
+        credentials {
+            username = <YOUR_GITHUB_USERNAME>
+            password = <YOUR_GITHUB_TOKEN>
+        }
+    }
 
 # Usage
-The library provides following components:
+The library provides the following components:
  - [BarChart](#BarChart)
  - [BubbleChart](#BubbleChart)
  - [Dial](#Dial)
@@ -28,16 +38,17 @@ The library provides following components:
  - [PieChart](#PieChart)
 
 Most of the components have arguments like:
- - **data** - depends on chart type it's complex dataset or few primitives arguments
- - **colors** - gives the possibility to change colors of the chart. In some cases the colors are stored in datasets (like in BarChart or LineChart). See [theming](#Theming) section to set same appearance to all charts.
- - **config** - allows to personalize charts. Depends on chart type it can modify different parts of component. See documentation of specific chart
- - **animation** - the way how chart should appear at the first time
+ - **data** - depends on chart type it's a complex dataset or few primitives arguments
+ - **colors** - gives the possibility to change the colors of the chart. In some cases, the colors are stored in datasets (like in BarChart or LineChart). See [theming](#Theming) section to set the same appearance to all charts.
+ - **config** - allows to personalize charts. Depending on the chart type it can modify different parts of the component. See the documentation of specific chart
+ - **animation** - the way how chart should appear the first time
 
 ## BarChart
-![Bar chart](/assets/bar-chart.png)
+![bar-chart](https://github.com/carlosgub/kotlinm-charts/assets/30916886/cf1c0c24-566c-42ae-95c5-93015d37d5b7)
 
 Before using component the BarChartData has to be prepared:
 ```kotlin
+
 val barChartData = BarChartData(
     categories = listOf(
         BarChartCategory(
@@ -89,7 +100,7 @@ BarChart(
 There is another component called `BarChartWithLegend`. It renders bar chart with legend.
 
 ## BubbleChart
-![Bubble chart](/assets/bubble-chart.png)
+![bubble-chart](https://github.com/carlosgub/kotlinm-charts/assets/30916886/a4af88b9-8163-4043-be70-720fb43256cc)
 
 Before using component the list of Bubble has to be prepared:
 ```kotlin
@@ -124,7 +135,7 @@ BubbleChart(
 ```
 
 # Dial
-![Dial chart](/assets/dial-chart.png)
+![dial-chart](https://github.com/carlosgub/kotlinm-charts/assets/30916886/cf12cad7-8cd1-408f-b506-9e84036eda44)
 
 ```kotlin
 Dial(
@@ -165,7 +176,7 @@ There is another component `ProcentageDial`. It accepts only one data argument `
 
 
 # GasBottle
-![Gas bottle chart](/assets/gas-bottle.png)
+![gas-bottle](https://github.com/carlosgub/kotlinm-charts/assets/30916886/cd1d0b8f-2a0c-4715-a7b8-47849023a85a)
 
 ```kotlin
 GasBottle(
@@ -181,7 +192,7 @@ GasBottle(
 ```
 
 # LineChart
-![Line chart](/assets/line-chart.png)
+![line-chart](https://github.com/carlosgub/kotlinm-charts/assets/30916886/87d893ab-9879-4914-ac77-1c00ea37e7bb)
 
 Before using component the LineChartData has to be prepared:
 ```kotlin
@@ -230,7 +241,7 @@ LineChart(
 
 
 # PieChart
-![Line chart](/assets/pie-chart.png)
+![pie-chart-2](https://github.com/carlosgub/kotlinm-charts/assets/30916886/e17d9495-4d67-406a-b1d5-ce84231a720f)
 
 Before using component the list of PieChartData has to be prepared:
 ```kotlin
