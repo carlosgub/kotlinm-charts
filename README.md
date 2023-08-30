@@ -18,7 +18,7 @@ This library is at GitHub packages so you need to create a GitHub token with the
 
 [How to create a Github Token](https://docs.github.com/en/enterprise-server@3.8/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
-At this code at your gradle.kts file:
+At this code at your project gradle.kts file:
 
     maven {
         name = "GitHubPackages"
@@ -27,6 +27,15 @@ At this code at your gradle.kts file:
         credentials {
             username = <YOUR_GITHUB_USERNAME>
             password = <YOUR_GITHUB_TOKEN>
+        }
+    }
+
+And in your shared gradle.kts file:
+
+    val commonMain by getting {
+        dependencies {
+            //Your other libraries
+            implementation("com.carlosgub.kotlinm.charts:charts:1.0.1")
         }
     }
 
