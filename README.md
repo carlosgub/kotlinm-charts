@@ -341,11 +341,8 @@ BarChart(
 )
 ```
 
-# Security Issues
-[Reporting Security Vulnerabilities](SECURITY.md)
-
 # Contributing
-[Contributing guidelines](CONTRIBUTING.md)
+Feel free to create a PR.
 
 # License
 This library is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
