@@ -35,7 +35,7 @@ And in your shared gradle.kts file:
     val commonMain by getting {
         dependencies {
             //Your other libraries
-            implementation("com.carlosgub.kotlinm.charts:charts:1.0.3")
+            implementation("com.carlosgub.kotlinm.charts:charts:1.0.4")
         }
     }
 
