@@ -14,7 +14,7 @@ optInFlags = "-opt-in=kotlin.RequiresOptIn"
 jvmTarget = "17"
 
 #desktop
-desktop-packageVersion = "1.0.3"
+desktop-packageVersion = "1.0.4"
 desktop-packageName = "jvm"
 
 # Dependencies
@@ -33,7 +33,7 @@ dokkaVersion = "1.8.20"
 # Project
 project-group = "com.carlosgub.kotlinm.charts"
 project-artifact = "multiplatform-charts"
-project-version = "1.0.3"
+project-version = "1.0.4"
 project-name = "Compose Multiplatform Charts"
 project-description = "Charts library for Kotlin multiplatform applications"
 

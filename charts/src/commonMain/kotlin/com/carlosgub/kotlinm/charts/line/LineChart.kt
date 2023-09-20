@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
@@ -63,7 +62,6 @@ val dashedPathEffect = PathEffect.dashPathEffect(floatArrayOf(5f, 5f), 0f)
  * @param maxHorizontalLines Max number of lines, representing the y-axis values
  * @param roundMinMaxClosestTo Number to which min and max range will be rounded to
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LineChart(
     lineChartData: LineChartData,
@@ -93,6 +91,7 @@ fun LineChart(
                 animationSpec = animation.animationSpec()
             ).value
         }
+
         is ChartAnimation.Sequenced -> lineChartData.series.indices.map {
             animateFloatAsState(
                 targetValue = if (animationPlayed) 1f else 0f,
@@ -102,6 +101,7 @@ fun LineChart(
     }
 
     Row(modifier = modifier) {
+
         YAxisLabels(
             horizontalGridLines = horizontalGridLines,
             yAxisMarkerLayout = yAxisLabel,
@@ -109,6 +109,132 @@ fun LineChart(
 
         Spacer(modifier = Modifier.size(4.dp, 0.dp))
 
+        // main chart
+        Column(Modifier.fillMaxSize()) {
+            BoxWithConstraints(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .drawBehind {
+                        val lines = measureChartGrid(
+                            xAxisScale = TimestampXAxisScale(
+                                min = lineChartData.minX,
+                                max = lineChartData.maxX,
+                                maxTicksCount = maxVerticalLines - 1
+
+                            ),
+                            yAxisScale = YAxisScale(
+                                min = lineChartData.minY,
+                                max = lineChartData.maxY,
+                                maxTickCount = maxHorizontalLines - 1,
+                                roundClosestTo = roundMinMaxClosestTo,
+                            ),
+                            horizontalLinesOffset = horizontalLinesOffset
+                        )
+                        verticalGridLines = lines.verticalLines
+                        horizontalGridLines = lines.horizontalLines
+                        drawChartGrid(lines, colors.grid)
+
+                        drawLineChart(
+                            lineChartData = lineChartData,
+                            graphTopPadding = horizontalLinesOffset,
+                            graphBottomPadding = horizontalLinesOffset,
+                            alpha = alpha,
+                        )
+                    }
+                    // Touch input
+                    .pointerInput(Unit) {
+                        while (true) {
+                            awaitPointerEventScope {
+                                val event = awaitPointerEvent(pass = PointerEventPass.Initial)
+
+                                touchPositionX = if (
+                                    shouldIgnoreTouchInput(
+                                        event = event,
+                                        containerSize = size
+                                    )
+                                ) {
+                                    -1f
+                                } else {
+                                    event.changes[0].position.x
+                                }
+
+                                event.changes.any {
+                                    it.consume()
+                                    true
+                                }
+                            }
+                        }
+                    }
+            ) {
+                // Overlay
+                LineChartOverlayInformation(
+                    lineChartData = lineChartData,
+                    positionX = touchPositionX,
+                    containerSize = with(LocalDensity.current) {
+                        Size(
+                            maxWidth.toPx(),
+                            maxHeight.toPx()
+                        )
+                    },
+                    colors = colors,
+                    overlayHeaderLayout = overlayHeaderLabel,
+                    overlayDataEntryLayout = overlayDataEntryLabel,
+                )
+            }
+
+            Box(Modifier.fillMaxWidth()) {
+                for (gridLine in verticalGridLines) {
+                    Box(
+                        modifier = Modifier
+                            .alignCenterToOffsetHorizontal(gridLine.position)
+                    ) {
+                        xAxisLabel(gridLine.value.toLong())
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LineChart(
+    lineChartData: LineChartData,
+    modifier: Modifier = Modifier,
+    colors: LineChartColors = ChartTheme.colors.lineChartColors,
+    xAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.XAxisLabel,
+    overlayHeaderLabel: @Composable (value: Any) -> Unit = GridDefaults.OverlayHeaderLabel,
+    overlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit = GridDefaults.OverlayDataEntryLabel,
+    animation: ChartAnimation = ChartAnimation.Simple(),
+    maxVerticalLines: Int = GridDefaults.NUMBER_OF_GRID_LINES,
+    maxHorizontalLines: Int = GridDefaults.NUMBER_OF_GRID_LINES,
+    roundMinMaxClosestTo: Int = GridDefaults.ROUND_MIN_MAX_CLOSEST_TO,
+) {
+    var touchPositionX by remember { mutableStateOf(-1f) }
+    var verticalGridLines by remember { mutableStateOf(emptyList<LineParameters>()) }
+    var horizontalGridLines by remember { mutableStateOf(emptyList<LineParameters>()) }
+    val horizontalLinesOffset: Dp = GridDefaults.HORIZONTAL_LINES_OFFSET
+
+    val animationPlayed = StartAnimation(animation, lineChartData)
+
+    val alpha = when (animation) {
+        ChartAnimation.Disabled -> lineChartData.series.indices.map { 1f }
+        is ChartAnimation.Simple -> lineChartData.series.indices.map {
+            animateFloatAsState(
+                targetValue = if (animationPlayed) 1f else 0f,
+                animationSpec = animation.animationSpec()
+            ).value
+        }
+
+        is ChartAnimation.Sequenced -> lineChartData.series.indices.map {
+            animateFloatAsState(
+                targetValue = if (animationPlayed) 1f else 0f,
+                animationSpec = animation.animationSpec(it)
+            ).value
+        }
+    }
+
+    Row(modifier = modifier) {
         // main chart
         Column(Modifier.fillMaxSize()) {
             BoxWithConstraints(

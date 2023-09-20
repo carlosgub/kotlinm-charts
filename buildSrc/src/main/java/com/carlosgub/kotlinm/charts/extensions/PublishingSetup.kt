@@ -34,7 +34,7 @@ fun Project.publishingSetup() {
     val libs = project.the<LibrariesForLibs>()
 
     project.group = libs.versions.project.group.get()
-    project.version = "1.0.3"
+    project.version = "1.0.4"
 
     val javadocJar = tasks.register<Jar>("javadocJar", Jar::class.java) {
         archiveClassifier.set("javadoc")
@@ -59,7 +59,7 @@ fun Project.publishingSetup() {
             register("gprRelease", MavenPublication::class) {
                 groupId = "com.carlosgub.libraries"
                 artifactId = mavenArtifactId
-                version = "1.0.3"
+                version = "1.0.4"
                 artifact(javadocJar)
             }
         }
